@@ -11,7 +11,7 @@ class SudokuApp:
     def start(self):
 
         self.brd = self.create()
-
+        self.print_brd()
         self.brd = self.solve()
 
         return self.brd
@@ -27,8 +27,7 @@ class SudokuApp:
         rBase = range(self.base)
         rows = [g * self.base + r for g in self.shuffle(rBase) for r in self.shuffle(rBase)]
         col = [g * self.base + c for g in self.shuffle(rBase) for c in self.shuffle(rBase)]
-        print(col)
-        print(rows)
+       
         # Reshuffles and adds to the rows and cols "+1", to get rid of the initial "0" from using range above
         #And to add up to 9
         nums = self.shuffle(range(1, self.base*self.base + 1))
@@ -56,7 +55,7 @@ class SudokuApp:
         # Every third row print line
         for c in range(len(self.brd)):
             if c % 3 == 0 and c != 0:
-                print("- - - - - - - - - - - - - ")
+                print("- - - - - - - - - - -  ")
 
             # Every third element print horizontal line
             for r in range(len(self.brd[0])):
@@ -69,6 +68,7 @@ class SudokuApp:
                 else:
                     print(str(self.brd[c][r]) + " ", end="")
 
+        return print('\n\nSolved is down below')
 
 
     def find_empty(self):
