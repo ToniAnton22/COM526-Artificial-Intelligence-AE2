@@ -3,6 +3,7 @@ from random import sample
 class SudokuApp:
 
     def __init__(self):
+        # Initial values for our sudoku game, they will not be changable
         self.base = 3
         self.side = self.base*self.base
         self.brd = []
@@ -11,11 +12,10 @@ class SudokuApp:
 
         self.brd = self.create()
 
-        self.print_brd()
-
         self.brd = self.solve()
 
         return self.brd
+
 
     def pattern(self,r,c): return (self.base *(r % self.base) + r//self.base + c)% self.side
 
@@ -23,13 +23,18 @@ class SudokuApp:
 
 
     def create(self):
+        # Creates rows and col, with a 3x3 base useing rBase
         rBase = range(self.base)
         rows = [g * self.base + r for g in self.shuffle(rBase) for r in self.shuffle(rBase)]
         col = [g * self.base + c for g in self.shuffle(rBase) for c in self.shuffle(rBase)]
+        print(col)
+        print(rows)
+        # Reshuffles and adds to the rows and cols "+1", to get rid of the initial "0" from using range above
+        #And to add up to 9
         nums = self.shuffle(range(1, self.base*self.base + 1))
 
+        # Creates 9 total 3x3 tables, and adds the sudoku rules pattern
         self.brd =[[nums[self.pattern(r,c)] for c in col]for r in rows]
-
 
         self.brd = self.emptysquares()
 
@@ -39,6 +44,8 @@ class SudokuApp:
 
         squares = self.side * self.side
         empties = squares * 3//4
+
+        # Interates to turn to 0 three quarters of the board
 
         for p in sample(range(squares),empties):
             self.brd[p//self.side][p%self.side]= 0
@@ -51,12 +58,12 @@ class SudokuApp:
             if c % 3 == 0 and c != 0:
                 print("- - - - - - - - - - - - - ")
 
-            #Every third element print horizontal line
+            # Every third element print horizontal line
             for r in range(len(self.brd[0])):
                 if r % 3 == 0 and r != 0:
                     print("| ", end="")
 
-                #Last possition check
+                # Last possition check
                 if r == 8:
                     print(self.brd[c][r])
                 else:
